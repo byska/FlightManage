@@ -42,23 +42,34 @@ namespace FlightManage.Infrastructure.Seed
                 DestinationAirport = esb
             };
 
-            var flight = Flight.Create(
+            var flight1 = Flight.Create(
                 new FlightNumber("TK1234"),
                 DateTime.UtcNow.AddDays(2),
                 new FlightDuration(TimeSpan.FromMinutes(75)),
                 450.0,
                 route,
                 aircraft
-                );
-            flight.AddSharedFlight(new FlightNumber("LH5678"), "Lufthansa");
+            );
+            flight1.AddSharedFlight(new FlightNumber("LH5678"), "Lufthansa");
+            flight1.AddConnectingFlightToShared("Berlin", DateTime.UtcNow.AddDays(2).AddHours(3));
 
-            flight.AddConnectingFlightToShared("Berlin", DateTime.UtcNow.AddDays(2).AddHours(3));
+            var flight2 = Flight.Create(
+                new FlightNumber("TK5678"),
+                DateTime.UtcNow.AddDays(3),  
+                new FlightDuration(TimeSpan.FromMinutes(90)),
+                550.0,
+                route,
+                aircraft
+            );
+            flight2.AddSharedFlight(new FlightNumber("AF9876"), "Air France");
+            flight2.AddConnectingFlightToShared("Paris", DateTime.UtcNow.AddDays(3).AddHours(2));
 
             context.VehicleTypes.Add(aircraft);
             context.Airports.AddRange(ist, esb);
             context.FlightRoutes.Add(route);
-            context.Flights.Add(flight);
+            context.Flights.AddRange(flight1, flight2);
             context.SaveChanges();
         }
+
     }
 }

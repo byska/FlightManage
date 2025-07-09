@@ -1,3 +1,10 @@
+using FlightManage.Application.Abstractions;
+using FlightManage.Application.UseCases.FlightUseCases.Queries;
+using FlightManage.Infrastructure.Persistence;
+using FlightManage.Infrastructure.Repositories;
+using FlightManage.Infrastructure.Seed;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.

@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using FlightManage.Application.UseCases.FlightUseCases.Queries;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

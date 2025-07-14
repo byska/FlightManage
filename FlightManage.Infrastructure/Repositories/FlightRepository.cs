@@ -18,14 +18,14 @@ namespace FlightManage.Infrastructure.Repositories
         public async Task<IReadOnlyList<Flight>> GetAllAsync(CancellationToken ct)
         {
             return await _flightContext.Flights.Include(x => x.FlightRoute).ThenInclude(x => x.SourceAirport).Include(x => x.FlightRoute)
-            .ThenInclude(x => x.DestinationAirport).Include(x => x.VehicleType).Include(x => x.SharedFlight).AsNoTracking().ToListAsync(ct);
+            .ThenInclude(x => x.DestinationAirport).Include(x => x.VehicleType).Include(x => x.SharedFlight).AsNoTracking().Where(x=>x.IsActive).ToListAsync(ct);
 
         }
 
         public async Task<Flight> GetByIdAsync(Guid id, CancellationToken ct)
         {
             Flight? flight = await _flightContext.Flights.Include(x => x.FlightRoute).ThenInclude(x => x.SourceAirport).Include(x => x.FlightRoute)
-            .ThenInclude(x => x.DestinationAirport).Include(x => x.VehicleType).Include(x => x.SharedFlight).Where(x => x.Id == id).FirstOrDefaultAsync(ct);
+            .ThenInclude(x => x.DestinationAirport).Include(x => x.VehicleType).Include(x => x.SharedFlight).Where(x => x.Id == id && x.IsActive).FirstOrDefaultAsync(ct);
             return flight;
         }
         public async Task<Flight> GetByFlightNumberAsync(string flightNumber, CancellationToken ct)
@@ -33,7 +33,7 @@ namespace FlightManage.Infrastructure.Repositories
             try
             {
                 Flight? flight = await _flightContext.Flights.Include(x => x.FlightRoute).ThenInclude(x => x.SourceAirport).Include(x => x.FlightRoute)
-           .ThenInclude(x => x.DestinationAirport).Include(x => x.VehicleType).Include(x => x.SharedFlight).Where(x => x.FlightNumber.Value == flightNumber).FirstOrDefaultAsync(ct);
+           .ThenInclude(x => x.DestinationAirport).Include(x => x.VehicleType).Include(x => x.SharedFlight).Where(x => x.FlightNumber.Value == flightNumber && x.IsActive).FirstOrDefaultAsync(ct);
                 return flight;
             }
             catch (Exception ex)

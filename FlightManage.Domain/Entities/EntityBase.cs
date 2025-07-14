@@ -15,6 +15,8 @@ namespace FlightManage.Domain.Entities
         public DateTime? UpdateDate { get; set; }
         public Guid? UpdatedBy { get; set; }
         public Guid? CreatedBy { get; set; }
+        public DateTime? DeleteDate { get; set; }
+        public bool IsActive { get; set; } = true;
         protected EntityBase()
         {
         }
